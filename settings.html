@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LLM Switcher Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>LLM Switcher</h2>
+        <span class="version-tag">v2.0.0</span>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="mappings-tab">
+          <svg viewBox="0 0 24 24" width="16" height="16" class="nav-icon"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/></svg>
+          Mappings
+        </button>
+        <button class="nav-item" data-tab="services-tab">
+          <svg viewBox="0 0 24 24" width="16" height="16" class="nav-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+          Manage Services
+        </button>
+        <button class="nav-item" data-tab="profiles-tab">
+          <svg viewBox="0 0 24 24" width="16" height="16" class="nav-icon"><path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Manage Profiles
+        </button>
+        <button class="nav-item" data-tab="preferences-tab">
+          <svg viewBox="0 0 24 24" width="16" height="16" class="nav-icon"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          Preferences
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="status-indicator-dot"></span>
+        <span id="save-status-text">All changes saved</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <!-- Tab 1: Mappings -->
+      <section id="mappings-tab" class="tab-content active">
+        <header class="tab-header">
+          <h1>Profile Mappings</h1>
+          <p>Assign your internal profiles to LLM services. Click a service to launch it in a dedicated window.</p>
+        </header>
+        <div class="mappings-list" id="mappings-list-container">
+          <!-- Dynamic mappings list will go here -->
+        </div>
+      </section>
+
+      <!-- Tab 2: Manage Services -->
+      <section id="services-tab" class="tab-content">
+        <header class="tab-header">
+          <h1>Manage Services</h1>
+          <p>Create custom service links or modify existing ones.</p>
+        </header>
+
+        <div class="services-grid">
+          <!-- Left side: List of services -->
+          <div class="services-list-panel">
+            <h3>Active Services</h3>
+            <div id="services-list-container" class="services-list">
+              <!-- Services list -->
+            </div>
+          </div>
+
+          <!-- Right side: Add/Edit service form -->
+          <div class="service-form-panel">
+            <h3 id="form-title">Add New Service</h3>
+            <form id="service-form">
+              <input type="hidden" id="edit-service-id" value="">
+              
+              <div class="form-group">
+                <label for="service-name">Service Name</label>
+                <input type="text" id="service-name" placeholder="e.g. DeepSeek" required>
+              </div>
+
+              <div class="form-group">
+                <label for="service-url">URL</label>
+                <input type="url" id="service-url" placeholder="https://..." required>
+              </div>
+
+              <div class="form-group">
+                <label for="service-color">Brand Color</label>
+                <div class="color-picker-wrapper">
+                  <input type="color" id="service-color" value="#4f46e5">
+                  <input type="text" id="service-color-hex" value="#4f46e5" pattern="^#[0-9A-Fa-f]{6}$" placeholder="#ffffff">
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" id="btn-cancel-edit" class="btn btn-secondary hidden">Cancel</button>
+                <button type="submit" id="btn-save-service" class="btn btn-primary">Add Service</button>
+                <button type="button" id="btn-delete-service" class="btn btn-danger hidden">Delete</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 3: Manage Profiles -->
+      <section id="profiles-tab" class="tab-content">
+        <header class="tab-header">
+          <h1>Manage Profiles</h1>
+          <p>Create and edit isolated workspaces. Each profile has independent cookies and logins.</p>
+        </header>
+
+        <div class="services-grid">
+          <!-- Left side: List of profiles -->
+          <div class="services-list-panel">
+            <h3>Your Profiles</h3>
+            <div id="profiles-list-container" class="services-list">
+              <!-- Profiles list -->
+            </div>
+          </div>
+
+          <!-- Right side: Add/Edit profile form -->
+          <div class="service-form-panel">
+            <h3 id="profile-form-title">Add New Profile</h3>
+            <form id="profile-form">
+              <input type="hidden" id="edit-profile-id" value="">
+              
+              <div class="form-group">
+                <label for="profile-id">Profile ID (Internal Name)</label>
+                <input type="text" id="profile-id" placeholder="e.g. personal" pattern="^[a-zA-Z0-9_-]+$" title="Only letters, numbers, hyphens, underscores" required>
+              </div>
+
+              <div class="form-group">
+                <label for="profile-name">Display Name</label>
+                <input type="text" id="profile-name" placeholder="e.g. Personal Account" required>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" id="btn-cancel-profile" class="btn btn-secondary hidden">Cancel</button>
+                <button type="submit" id="btn-save-profile" class="btn btn-primary">Add Profile</button>
+                <button type="button" id="btn-delete-profile" class="btn btn-danger hidden">Delete</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 4: Preferences -->
+      <section id="preferences-tab" class="tab-content">
+        <header class="tab-header">
+          <h1>Preferences</h1>
+          <p>Global options for LLM Switcher.</p>
+        </header>
+
+        <div class="preferences-panel">
+          <div class="pref-item">
+            <div class="pref-info">
+              <span class="pref-title">Launch on Startup</span>
+              <span class="pref-desc">Automatically launch LLM Switcher when you log in to Windows.</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="startup-toggle">
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <hr class="pref-divider">
+
+          <div class="info-section">
+            <h3>Configuration File</h3>
+            <div class="config-path-box">
+              <code id="config-file-path">C:\Users\...</code>
+            </div>
+            <p class="info-text">The configuration is stored locally. You can back up this file to preserve your settings and custom services.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="settings_renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+  "name": "llm-switcher",
+  "version": "1.0.0",
+  "description": "Windows system tray app to open LLM services in specific Chrome profiles",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . \"LLM Switcher\" --platform=win32 --arch=x64 --icon=llm_switcher.ico --out=dist --overwrite",
+    "dist": "npm run build"
+  },
+  "keywords": [
+    "chrome",
+    "profile",
+    "llm",
+    "switcher",
+    "tray"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.torres.llm-switcher",
+    "productName": "LLM Switcher",
+    "forceCodeSigning": false,
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "llm_switcher.ico",
+      "sign": null
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "index.css",
+      "renderer.js",
+      "settings.html",
+      "settings.css",
+      "settings_renderer.js",
+      "llm_switcher.ico"
+    ]
+  }
+}

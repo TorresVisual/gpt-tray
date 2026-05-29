@@ -1,83 +1,60 @@
 # LLM Switcher
 
-A Windows system tray app that opens AI/LLM services in a specific Chrome profile with one click.
+A standalone Windows system tray application that manages isolated workspaces for all your AI/LLM services in one click.
 
-![tray icon](https://img.shields.io/badge/platform-Windows-blue) ![python](https://img.shields.io/badge/python-3.10%2B-blue)
+![tray icon](https://img.shields.io/badge/platform-Windows-blue) ![node](https://img.shields.io/badge/node.js-v22%2B-green) ![electron](https://img.shields.io/badge/electron-v30%2B-blue)
 
 ## What it does
 
-Left-click the tray icon to open a popup switcher. Each card shows a service and which Chrome profile it opens in. Click a card to launch that service directly in the right profile — no manual profile switching.
+Left-click the tray icon to open a beautiful, glassmorphic popup switcher. Each card represents a service and an isolated workspace (Profile). Click a card to instantly launch that service in a dedicated native window. 
 
-Supports: **ChatGPT**, **Claude**, **Gemini**, **Perplexity**, **GitHub Copilot**, **Grok**, **WolframAlpha**
+**No Chrome Required:**
+Unlike previous versions, LLM Switcher no longer relies on external browsers. It acts as its own workspace, giving you completely isolated login sessions (Profiles) that keep your work, personal, and alternate accounts flawlessly separated without cluttering your main browser.
 
-## Setup
+Supports predefined links for: **ChatGPT**, **Claude**, **Gemini**, **Perplexity**, **GitHub Copilot**, **Grok**, **WolframAlpha** — plus unlimited custom services.
+
+## Setup & Development
 
 **1. Install dependencies**
 
 ```bash
-pip install pystray Pillow
+npm install
 ```
 
 **2. Run the app**
 
 ```bash
-python llm_switcher.py
+npm start
 ```
 
-On first run, a `config.json` template is created next to the script and opened automatically. The app will show you your available Chrome profile directory names.
-
-**3. Edit `config.json`**
-
-Map each service to one or more Chrome profile directories:
-
-```json
-{
-  "ChatGPT": ["Default"],
-  "Claude":  ["Profile 1"],
-  "Gemini":  ["Profile 2"]
-}
-```
-
-- Keys must match a supported service name (see list above)
-- Values are Chrome profile directory names (e.g. `"Default"`, `"Profile 1"`, `"Profile 3"`)
-- Multiple profiles per service → one card per profile in the popup
-- Omit a service or leave its list empty to hide it
-
-**4. Restart the app** — the tray icon appears in the system tray.
+On first run, the Settings dashboard will automatically open so you can configure your first workspaces.
 
 ## Usage
 
 | Action | Result |
 |---|---|
 | Left-click tray icon | Open/close the switcher popup |
-| Click a service card | Launch the URL in that Chrome profile |
-| Right-click tray icon | Open Switcher / Edit Config / Exit |
-| Click ⚙ Edit Config in popup | Open `config.json` in the default editor |
-| Esc or outside click | Close the popup |
+| Click a service card | Launch the service in an isolated app window |
+| Right-click tray icon | Open context menu (Settings / Exit) |
+| Click ⚙ Settings in popup | Open the global Settings dashboard |
+| Esc or outside click | Close the popup panel |
 
-## Build executable
+## Managing Configuration
+
+All configuration happens directly within the native Settings UI:
+- **Profile Mappings:** Map specific profiles to services.
+- **Manage Services:** Add custom endpoints or update brand colors.
+- **Manage Profiles:** Create and delete isolated cookie/login sessions.
+- **Preferences:** Toggle automatic startup on Windows boot.
+
+Your settings are safely stored in `config.json` next to the executable.
+
+## Build Executable
+
+To compile a standalone portable `.exe`:
 
 ```bash
-python build.py
+npm run dist
 ```
 
-Output: `dist/gpt_tray.exe` — single file, no console, no installer needed. Place `config.json` in the same directory as the exe.
-
-## Adding a new service
-
-Edit the `SERVICES` dict in [llm_switcher.py](llm_switcher.py):
-
-```python
-SERVICES = {
-    "MyService": ("https://myservice.com/", "#hexcolor"),
-    ...
-}
-```
-
-Then add it to `config.json` with your profile directories.
-
-## Requirements
-
-- Windows (uses `winreg` and Chrome's `%LOCALAPPDATA%` paths)
-- Google Chrome installed
-- Python 3.10+ with `pystray` and `Pillow`
+Output: `dist/LLM Switcher-win32-x64/LLM Switcher.exe` — a portable Electron application. 

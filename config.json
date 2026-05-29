@@ -1,5 +1,64 @@
 {
-  "ChatGPT": ["Profile 3", "Profile 4", "Profile 5", "Profile 6"],
-  "Gemini": ["Profile 8"],
-  "Claude": ["Profile 9"]
+  "services": {
+    "ChatGPT": {
+      "url": "https://chat.openai.com/",
+      "color": "#10a37f"
+    },
+    "Claude": {
+      "url": "https://claude.ai/",
+      "color": "#da7756"
+    },
+    "Gemini": {
+      "url": "https://gemini.google.com/",
+      "color": "#4285f4"
+    },
+    "Perplexity": {
+      "url": "https://www.perplexity.ai/",
+      "color": "#20b2aa"
+    },
+    "GitHub Copilot": {
+      "url": "https://github.com/copilot",
+      "color": "#7c3aed"
+    },
+    "Grok": {
+      "url": "https://grok.com/",
+      "color": "#9ca3af"
+    },
+    "WolframAlpha": {
+      "url": "https://www.wolframalpha.com/",
+      "color": "#cc2200"
+    }
+  },
+  "appProfiles": {
+    "default": "Main Profile",
+    "work": "Work Profile",
+    "chatgpt 1": "ChatGPT 1",
+    "chatgpt 2": "ChatGPT 2",
+    "chatgpt 3": "ChatGPT 3",
+    "chatgpt 4": "ChatGPT 4",
+    "gemini 1": "Gemini 1",
+    "claude 1": "Claude 1",
+    "wolframalpha 1": "WolframAlpha 1"
+  },
+  "mappings": {
+    "ChatGPT": [
+      "chatgpt 1",
+      "chatgpt 2",
+      "chatgpt 3",
+      "chatgpt 4"
+    ],
+    "Gemini": [
+      "gemini 1"
+    ],
+    "Claude": [
+      "claude 1"
+    ],
+    "WolframAlpha": [
+      "wolframalpha 1"
+    ]
+  },
+  "settings": {
+    "launchOnStartup": true
+  },
+  "configPath": "D:\\Coding\\llm-switcher\\config.json"
 }

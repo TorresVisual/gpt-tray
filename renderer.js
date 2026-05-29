@@ -3,7 +3,8 @@ let appProfiles = null;
 
 const cardsList = document.getElementById('cards-list');
 const searchInput = document.getElementById('search-input');
-const settingsBtn = document.getElementById('settings-btn');
+const btnSettings = document.getElementById('btn-settings');
+const btnClose = document.getElementById('btn-close');
 
 async function loadData() {
   try {
@@ -97,9 +98,20 @@ searchInput.addEventListener('keydown', (e) => {
   }
 });
 
-// Settings button
-settingsBtn.addEventListener('click', () => {
+// Settings and Close buttons
+btnSettings.addEventListener('click', () => {
   window.api.openSettings();
+});
+
+btnClose.addEventListener('click', () => {
+  window.api.closePopup();
+});
+
+// Close on Escape key if search is empty
+document.body.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !searchInput.value) {
+    window.api.closePopup();
+  }
 });
 
 // Load on start

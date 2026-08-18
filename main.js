@@ -6,6 +6,7 @@ const { execSync } = require('child_process');
 let tray = null;
 let popupWindow = null;
 let settingsWindow = null;
+const serviceWindows = new Map(); // partitionId -> BrowserWindow
 
 // Determine config path (portable style, next to executable/script)
 const appDir = app.isPackaged ? path.dirname(process.execPath) : __dirname;
@@ -194,25 +195,38 @@ ipcMain.handle('save-config', (event, config) => {
 });
 
 // Launch internal browser window with isolated session
-ipcMain.handle('launch-service', (event, { profileDir, url }) => {
+ipcMain.handle('launch-service', (event, { profileDir, url, color }) => {
+  const partitionId = 'persist:' + profileDir;
+
+  const existing = serviceWindows.get(partitionId);
+  if (existing && !existing.isDestroyed()) {
+    existing.show();
+    existing.focus();
+    return { success: true };
+  }
+
   try {
-    const partitionId = 'persist:' + profileDir;
-    
     const serviceWin = new BrowserWindow({
       width: 1200,
       height: 800,
       title: 'LLM Switcher',
       icon: path.join(__dirname, 'llm_switcher.ico'),
+      backgroundColor: color || '#111114',
       webPreferences: {
         partition: partitionId,
         nodeIntegration: false,
         contextIsolation: true
       }
     });
-    
+
     serviceWin.setMenu(null);
     serviceWin.loadURL(url);
-    
+
+    serviceWindows.set(partitionId, serviceWin);
+    serviceWin.on('closed', () => {
+      serviceWindows.delete(partitionId);
+    });
+
     return { success: true };
   } catch (e) {
     console.error('Launch Error:', e);

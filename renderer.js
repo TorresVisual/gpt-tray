@@ -77,7 +77,7 @@ function renderCards() {
       // Hide popup first to give responsive feedback
       await window.api.closePopup();
       // Launch service
-      await window.api.launchService(card.profileDir, card.url);
+      await window.api.launchService(card.profileDir, card.url, card.color);
     });
 
     cardsList.appendChild(cardEl);

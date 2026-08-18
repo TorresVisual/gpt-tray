@@ -38,6 +38,8 @@
     },
     "files": [
       "main.js",
+      "config.js",
+      "windows.js",
       "preload.js",
       "index.html",
       "index.css",

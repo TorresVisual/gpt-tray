@@ -3,7 +3,6 @@ const path = require('path');
 
 let popupWindow = null;
 let settingsWindow = null;
-const serviceWindows = new Map(); // partitionId -> BrowserWindow
 
 function createPopupWindow() {
   popupWindow = new BrowserWindow({
@@ -92,49 +91,9 @@ function openSettings() {
   });
 }
 
-function launchService(profileDir, url, color) {
-  const partitionId = 'persist:' + profileDir;
-
-  const existing = serviceWindows.get(partitionId);
-  if (existing && !existing.isDestroyed()) {
-    existing.show();
-    existing.focus();
-    return { success: true };
-  }
-
-  try {
-    const serviceWin = new BrowserWindow({
-      width: 1200,
-      height: 800,
-      title: 'LLM Switcher',
-      icon: path.join(__dirname, 'llm_switcher.ico'),
-      backgroundColor: color || '#111114',
-      webPreferences: {
-        partition: partitionId,
-        nodeIntegration: false,
-        contextIsolation: true
-      }
-    });
-
-    serviceWin.setMenu(null);
-    serviceWin.loadURL(url);
-
-    serviceWindows.set(partitionId, serviceWin);
-    serviceWin.on('closed', () => {
-      serviceWindows.delete(partitionId);
-    });
-
-    return { success: true };
-  } catch (e) {
-    console.error('Launch Error:', e);
-    return { success: false, error: e.message };
-  }
-}
-
 module.exports = {
   createPopupWindow,
   getPopupWindow,
   showPopup,
-  openSettings,
-  launchService
+  openSettings
 };

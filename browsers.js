@@ -1,5 +1,7 @@
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 const fs = require('fs');
+const path = require('path');
+const { app, shell } = require('electron');
 
 const BROWSERS = [
   { id: 'brave', name: 'Brave', exe: 'brave.exe' },
@@ -47,4 +49,30 @@ function resolveBrowserChoice(browserId, availableBrowsers) {
   return null;
 }
 
-module.exports = { getAvailableBrowsers, resolveBrowserChoice };
+function launchService(profileDir, url, browserId) {
+  const availableBrowsers = getAvailableBrowsers();
+  const browser = resolveBrowserChoice(browserId, availableBrowsers);
+
+  if (!browser) {
+    shell.openExternal(url);
+    return { success: true, fallback: true };
+  }
+
+  const userDataDir = path.join(app.getPath('userData'), 'browser-profiles');
+  const args = [
+    `--app=${url}`,
+    `--user-data-dir=${userDataDir}`,
+    `--profile-directory=${profileDir}`
+  ];
+
+  try {
+    const child = spawn(browser.path, args, { detached: true, stdio: 'ignore' });
+    child.unref();
+    return { success: true };
+  } catch (e) {
+    console.error('Launch Error:', e);
+    return { success: false, error: e.message };
+  }
+}
+
+module.exports = { getAvailableBrowsers, resolveBrowserChoice, launchService };

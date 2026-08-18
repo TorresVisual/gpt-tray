@@ -25,8 +25,9 @@ ipcMain.handle('get-available-browsers', () => {
   return browsers.getAvailableBrowsers();
 });
 
-ipcMain.handle('launch-service', (event, { profileDir, url, color }) => {
-  return windows.launchService(profileDir, url, color);
+ipcMain.handle('launch-service', (event, { profileDir, url }) => {
+  const cfg = config.loadConfig();
+  return browsers.launchService(profileDir, url, cfg.settings.browserId);
 });
 
 ipcMain.handle('open-settings', () => {

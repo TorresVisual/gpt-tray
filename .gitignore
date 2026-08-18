@@ -5,3 +5,4 @@ node_modules/
 
 # Added by Null IDE Auto-Gitignore
 .superpowers/
+.claude/

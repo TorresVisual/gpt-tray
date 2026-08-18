@@ -8,7 +8,7 @@
     "build": "electron-packager . \"LLM Switcher\" --platform=win32 --arch=x64 --icon=llm_switcher.ico --out=dist --overwrite",
     "dist": "npm run build",
     "test": "node --test",
-    "lint": "eslint main.js config.js windows.js browsers.js preload.js renderer.js settings_renderer.js settings",
+    "lint": "eslint main.js config.js windows.js browsers.js preload.js lib renderer.js settings_renderer.js settings",
     "format": "prettier --write ."
   },
   "keywords": [
@@ -47,6 +47,7 @@
       "config.js",
       "windows.js",
       "browsers.js",
+      "lib/browser-select.js",
       "preload.js",
       "index.html",
       "index.css",

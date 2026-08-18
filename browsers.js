@@ -2,14 +2,13 @@ const { execSync, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const { app, shell } = require('electron');
+const { resolveBrowserChoice } = require('./lib/browser-select');
 
 const BROWSERS = [
   { id: 'brave', name: 'Brave', exe: 'brave.exe' },
   { id: 'chrome', name: 'Chrome', exe: 'chrome.exe' },
   { id: 'edge', name: 'Edge', exe: 'msedge.exe' }
 ];
-
-const PREFERENCE_ORDER = ['brave', 'chrome', 'edge'];
 
 function getAvailableBrowsers() {
   const found = [];
@@ -33,20 +32,6 @@ function getAvailableBrowsers() {
   }
 
   return found;
-}
-
-function resolveBrowserChoice(browserId, availableBrowsers) {
-  if (browserId) {
-    const chosen = availableBrowsers.find(b => b.id === browserId);
-    if (chosen) return chosen;
-  }
-
-  for (const id of PREFERENCE_ORDER) {
-    const found = availableBrowsers.find(b => b.id === id);
-    if (found) return found;
-  }
-
-  return null;
 }
 
 function launchService(profileDir, url, browserId) {

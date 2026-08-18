@@ -1,16 +1,16 @@
+import { config, saveChanges, onConfigLoaded } from './store.js';
+
 const startupToggle = document.getElementById('startup-toggle');
 const configFilePath = document.getElementById('config-file-path');
 const browserSelect = document.getElementById('browser-select');
 
-let availableBrowsers = [];
-
-async function renderPreferences() {
+export async function renderPreferences() {
   if (!config) return;
 
   startupToggle.checked = config.settings.launchOnStartup || false;
   configFilePath.textContent = config.configPath || 'Unknown';
 
-  availableBrowsers = await window.api.getAvailableBrowsers();
+  const availableBrowsers = await window.api.getAvailableBrowsers();
   browserSelect.innerHTML = '';
 
   if (availableBrowsers.length === 0) {
@@ -40,3 +40,5 @@ browserSelect.addEventListener('change', (e) => {
   config.settings.browserId = e.target.value;
   saveChanges();
 });
+
+onConfigLoaded(renderPreferences);

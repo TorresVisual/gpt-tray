@@ -1,3 +1,5 @@
+import { config, profiles, saveChanges, loadData, onConfigLoaded } from './store.js';
+
 let selectedProfileId = null;
 const DEFAULT_PROFILE_IDS = ["default", "work"];
 
@@ -11,7 +13,7 @@ const btnCancelProfile = document.getElementById('btn-cancel-profile');
 const btnSaveProfile = document.getElementById('btn-save-profile');
 const btnDeleteProfile = document.getElementById('btn-delete-profile');
 
-function renderProfiles() {
+export function renderProfiles() {
   profilesListContainer.innerHTML = '';
   const profileIds = Object.keys(profiles).sort();
 
@@ -53,7 +55,7 @@ function selectProfile(profId) {
   profileFormTitle.textContent = `Edit Profile: ${profName}`;
   editProfileId.value = profId;
   profileIdInput.value = profId;
-  profileIdInput.disabled = true; // Immutable ID
+  profileIdInput.disabled = true;
   profileNameInput.value = profName;
 
   btnCancelProfile.classList.remove('hidden');
@@ -92,10 +94,8 @@ profileForm.addEventListener('submit', async (e) => {
   const name = profileNameInput.value.trim();
 
   if (id) {
-    // Edit mode
     config.appProfiles[id] = name;
   } else {
-    // Create mode
     if (config.appProfiles[rawNewId]) {
       alert(`A profile with ID "${rawNewId}" already exists!`);
       return;
@@ -115,7 +115,6 @@ btnDeleteProfile.addEventListener('click', async () => {
   if (confirm(`Are you sure you want to delete the profile "${profiles[id]}"?\nAll existing mappings to this profile will be removed.`)) {
     delete config.appProfiles[id];
 
-    // Cleanup mappings
     for (const svcId of Object.keys(config.mappings)) {
       config.mappings[svcId] = config.mappings[svcId].filter(mappedId => mappedId !== id);
     }
@@ -125,3 +124,5 @@ btnDeleteProfile.addEventListener('click', async () => {
     resetProfileForm();
   }
 });
+
+onConfigLoaded(renderProfiles);

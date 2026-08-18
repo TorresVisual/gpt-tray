@@ -1,6 +1,8 @@
+import { config, profiles, saveChanges, onConfigLoaded } from './store.js';
+
 const mappingsListContainer = document.getElementById('mappings-list-container');
 
-function renderMappings() {
+export function renderMappings() {
   mappingsListContainer.innerHTML = '';
   const services = config.services || {};
 
@@ -24,11 +26,9 @@ function renderMappings() {
     const tagsContainer = document.createElement('div');
     tagsContainer.className = 'mapping-tags-container';
 
-    // Filter out invalid mapped dirs that no longer exist in profiles
     const validMappedDirs = mappedDirs.filter(dir => profiles[dir]);
     if (validMappedDirs.length !== mappedDirs.length) {
       config.mappings[svcId] = validMappedDirs;
-      // We will let a single save happen later or assume it cleans up over time
     }
 
     validMappedDirs.forEach(dir => {
@@ -85,3 +85,5 @@ function renderMappings() {
     mappingsListContainer.appendChild(row);
   });
 }
+
+onConfigLoaded(renderMappings);

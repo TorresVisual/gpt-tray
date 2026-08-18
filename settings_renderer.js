@@ -1,3 +1,9 @@
+import { loadData } from './settings/store.js';
+import './settings/mappings.js';
+import './settings/services.js';
+import './settings/profiles.js';
+import './settings/preferences.js';
+
 const navItems = document.querySelectorAll('.nav-item');
 const tabContents = document.querySelectorAll('.tab-content');
 

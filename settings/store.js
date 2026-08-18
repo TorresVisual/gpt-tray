@@ -1,20 +1,21 @@
-let config = null;
-let profiles = null;
+export let config = null;
+export let profiles = null;
 
 const saveStatusText = document.getElementById('save-status-text');
 const statusDot = document.querySelector('.status-indicator-dot');
+const configListeners = [];
 
-async function loadData() {
-  config = await window.api.getConfig();
-  profiles = config.appProfiles || {};
-
-  renderMappings();
-  renderServices();
-  renderProfiles();
-  renderPreferences();
+export function onConfigLoaded(callback) {
+  configListeners.push(callback);
 }
 
-async function saveChanges() {
+export async function loadData() {
+  config = await window.api.getConfig();
+  profiles = config.appProfiles || {};
+  configListeners.forEach(callback => callback());
+}
+
+export async function saveChanges() {
   statusDot.classList.add('saving');
   saveStatusText.textContent = 'Saving changes...';
 

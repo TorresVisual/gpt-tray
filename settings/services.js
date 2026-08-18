@@ -1,3 +1,5 @@
+import { config, saveChanges, loadData, onConfigLoaded } from './store.js';
+
 let selectedServiceId = null;
 const DEFAULT_SERVICE_IDS = ["ChatGPT", "Claude", "Gemini", "Perplexity", "GitHub Copilot", "Grok", "WolframAlpha"];
 
@@ -13,7 +15,7 @@ const btnCancelEdit = document.getElementById('btn-cancel-edit');
 const btnSaveService = document.getElementById('btn-save-service');
 const btnDeleteService = document.getElementById('btn-delete-service');
 
-function renderServices() {
+export function renderServices() {
   servicesListContainer.innerHTML = '';
   const services = config.services || {};
 
@@ -138,3 +140,5 @@ serviceColorHexInput.addEventListener('input', (e) => {
     serviceColorInput.value = e.target.value;
   }
 });
+
+onConfigLoaded(renderServices);

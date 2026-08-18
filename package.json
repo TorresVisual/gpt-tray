@@ -46,6 +46,11 @@
       "renderer.js",
       "settings.html",
       "settings.css",
+      "settings/store.js",
+      "settings/mappings.js",
+      "settings/services.js",
+      "settings/profiles.js",
+      "settings/preferences.js",
       "settings_renderer.js",
       "llm_switcher.ico"
     ]

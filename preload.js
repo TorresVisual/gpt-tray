@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('api', {
   launchService: (profileDir, url, color) => ipcRenderer.invoke('launch-service', { profileDir, url, color }),
   openSettings: () => ipcRenderer.invoke('open-settings'),
   closePopup: () => ipcRenderer.invoke('close-popup'),
-  setStartup: (enable) => ipcRenderer.invoke('set-startup', enable)
+  setStartup: (enable) => ipcRenderer.invoke('set-startup', enable),
+  getAvailableBrowsers: () => ipcRenderer.invoke('get-available-browsers')
 });

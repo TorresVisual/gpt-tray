@@ -51,7 +51,7 @@ function loadConfig() {
     services: { ...DEFAULT_SERVICES },
     appProfiles: { ...DEFAULT_PROFILES },
     mappings: {},
-    settings: { launchOnStartup: false }
+    settings: { launchOnStartup: false, browserId: null }
   };
 
   if (fs.existsSync(configPath)) {

@@ -2,6 +2,7 @@ const { app, Tray, Menu, ipcMain } = require('electron');
 const path = require('path');
 const config = require('./config');
 const windows = require('./windows');
+const browsers = require('./browsers');
 
 // Windows' native window-occlusion detection can incorrectly mark a visible,
 // focused window as hidden, dropping its renderer to Idle process priority
@@ -18,6 +19,10 @@ ipcMain.handle('get-config', () => {
 
 ipcMain.handle('save-config', (event, newConfig) => {
   return config.saveConfig(newConfig);
+});
+
+ipcMain.handle('get-available-browsers', () => {
+  return browsers.getAvailableBrowsers();
 });
 
 ipcMain.handle('launch-service', (event, { profileDir, url, color }) => {

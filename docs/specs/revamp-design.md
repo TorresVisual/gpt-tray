@@ -110,6 +110,36 @@ doesn't add one — verification is manual, via `npm start`:
 - Phase 3: visual review against the approved mockup direction, then iterate live
   based on owner feedback (explicitly deferred rather than nailed down upfront).
 
+## Known Limitation: Scroll Lag Root Cause
+
+Post-implementation investigation (see `docs/plans/revamp.md` execution history)
+into the residual scroll lag in service windows (e.g. ChatGPT) initially looked
+like a GPU-acceleration problem: `app.getGPUFeatureStatus()`, called at
+`app.whenReady()`, reported `gpu_compositing`/`rasterization` as
+`disabled_software`. That turned out to be a stale/early snapshot, not the real
+steady-state — querying Chromium's own `chrome://gpu` page after real content
+had loaded showed **Compositing: Hardware accelerated**, **Rasterization:
+Hardware accelerated**, **WebGL: Hardware accelerated**. GPU acceleration is
+genuinely active during real usage; this is not a GPU or Electron rendering bug.
+
+A DevTools Performance recording during an actual laggy scroll (ChatGPT, cold
+window) showed the real breakdown: **Scripting ~10.6s and Rendering/layout
+~6.2s dominate; Painting is only ~0.5s.** The bottleneck is CPU-bound
+JavaScript — ChatGPT's own client-side code (message rendering, virtualization,
+syntax highlighting) — not compositing/paint. This also explains the
+comparison against Brave: a freshly-launched Electron window starts with a
+cold V8 JIT every single time, while a long-open browser tab has long since
+optimized ChatGPT's hot JS paths. The same heavy JS is just slower on a cold
+start, in any Chromium-based renderer, not specific to this app.
+
+This means: it is not fixable by changing this app's code — it's inherent to
+how CPU-heavy ChatGPT's own web client is on a cold start. The Phase 1
+window-registry fix still provides real, relevant value here: reusing an
+already-open (and by now JIT-warmed) window instead of recreating it on every
+launch means a given profile's window should subjectively get *faster* the
+longer it stays open, rather than resetting to a cold start every time it's
+reopened.
+
 ## Non-Goals
 
 - New features (global hotkey, search/filter, notification badges) — owner

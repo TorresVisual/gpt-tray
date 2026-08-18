@@ -1,7 +1,6 @@
 import { config, profiles, saveChanges, loadData, onConfigLoaded } from './store.js';
 
 let selectedProfileId = null;
-const DEFAULT_PROFILE_IDS = ["default", "work"];
 
 const profilesListContainer = document.getElementById('profiles-list-container');
 const profileForm = document.getElementById('profile-form');
@@ -61,7 +60,7 @@ function selectProfile(profId) {
   btnCancelProfile.classList.remove('hidden');
   btnSaveProfile.textContent = 'Update Profile';
 
-  if (!DEFAULT_PROFILE_IDS.includes(profId)) {
+  if (!config.defaultProfileIds.includes(profId)) {
     btnDeleteProfile.classList.remove('hidden');
   } else {
     btnDeleteProfile.classList.add('hidden');

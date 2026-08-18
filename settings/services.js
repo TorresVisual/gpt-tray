@@ -1,7 +1,6 @@
 import { config, saveChanges, loadData, onConfigLoaded } from './store.js';
 
 let selectedServiceId = null;
-const DEFAULT_SERVICE_IDS = ["ChatGPT", "Claude", "Gemini", "Perplexity", "GitHub Copilot", "Grok", "WolframAlpha"];
 
 const servicesListContainer = document.getElementById('services-list-container');
 const serviceForm = document.getElementById('service-form');
@@ -68,7 +67,7 @@ function selectService(svcId) {
   btnCancelEdit.classList.remove('hidden');
   btnSaveService.textContent = 'Update Service';
 
-  if (!DEFAULT_SERVICE_IDS.includes(svcId)) {
+  if (!config.defaultServiceIds.includes(svcId)) {
     btnDeleteService.classList.remove('hidden');
   } else {
     btnDeleteService.classList.add('hidden');

@@ -3,6 +3,12 @@ const path = require('path');
 const config = require('./config');
 const windows = require('./windows');
 
+// Windows' native window-occlusion detection can incorrectly mark a visible,
+// focused window as hidden, dropping its renderer to Idle process priority
+// (confirmed via Win32_Process.Priority on this app's own windows). Disabling
+// it keeps focused windows at normal scheduling priority.
+app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion');
+
 // ── IPC Handlers ─────────────────────────────────────────────────────────────
 
 ipcMain.handle('get-config', () => {

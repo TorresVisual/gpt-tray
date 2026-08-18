@@ -16,7 +16,7 @@ export function renderProfiles() {
   profilesListContainer.innerHTML = '';
   const profileIds = Object.keys(profiles).sort();
 
-  profileIds.forEach(profId => {
+  profileIds.forEach((profId) => {
     const profName = profiles[profId];
 
     const item = document.createElement('div');
@@ -80,7 +80,7 @@ function resetProfileForm() {
   btnDeleteProfile.classList.add('hidden');
 
   const items = profilesListContainer.querySelectorAll('.service-list-item');
-  items.forEach(item => item.classList.remove('selected'));
+  items.forEach((item) => item.classList.remove('selected'));
 }
 
 btnCancelProfile.addEventListener('click', resetProfileForm);
@@ -111,11 +111,15 @@ btnDeleteProfile.addEventListener('click', async () => {
   const id = editProfileId.value;
   if (!id) return;
 
-  if (confirm(`Are you sure you want to delete the profile "${profiles[id]}"?\nAll existing mappings to this profile will be removed.`)) {
+  if (
+    confirm(
+      `Are you sure you want to delete the profile "${profiles[id]}"?\nAll existing mappings to this profile will be removed.`
+    )
+  ) {
     delete config.appProfiles[id];
 
     for (const svcId of Object.keys(config.mappings)) {
-      config.mappings[svcId] = config.mappings[svcId].filter(mappedId => mappedId !== id);
+      config.mappings[svcId] = config.mappings[svcId].filter((mappedId) => mappedId !== id);
     }
 
     await saveChanges();

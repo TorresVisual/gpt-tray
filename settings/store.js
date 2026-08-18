@@ -12,7 +12,7 @@ export function onConfigLoaded(callback) {
 export async function loadData() {
   config = await window.api.getConfig();
   profiles = config.appProfiles || {};
-  configListeners.forEach(callback => callback());
+  configListeners.forEach((callback) => callback());
 }
 
 export async function saveChanges() {

@@ -20,14 +20,14 @@ export async function renderPreferences() {
   }
 
   browserSelect.disabled = false;
-  availableBrowsers.forEach(browser => {
+  availableBrowsers.forEach((browser) => {
     const option = document.createElement('option');
     option.value = browser.id;
     option.textContent = browser.name;
     browserSelect.appendChild(option);
   });
 
-  const hasCurrentChoice = availableBrowsers.some(b => b.id === config.settings.browserId);
+  const hasCurrentChoice = availableBrowsers.some((b) => b.id === config.settings.browserId);
   browserSelect.value = hasCurrentChoice ? config.settings.browserId : availableBrowsers[0].id;
 }
 

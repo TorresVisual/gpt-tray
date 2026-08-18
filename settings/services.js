@@ -20,7 +20,7 @@ export function renderServices() {
 
   const serviceIds = Object.keys(services).sort();
 
-  serviceIds.forEach(svcId => {
+  serviceIds.forEach((svcId) => {
     const svc = services[svcId];
 
     const item = document.createElement('div');
@@ -89,7 +89,7 @@ function resetServiceForm() {
   btnDeleteService.classList.add('hidden');
 
   const items = servicesListContainer.querySelectorAll('.service-list-item');
-  items.forEach(item => item.classList.remove('selected'));
+  items.forEach((item) => item.classList.remove('selected'));
 }
 
 btnCancelEdit.addEventListener('click', resetServiceForm);

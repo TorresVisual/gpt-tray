@@ -2,14 +2,22 @@ const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
-const { DEFAULT_SERVICES, DEFAULT_PROFILES, defaultConfig, mergeWithDefaults } = require('./lib/config-shape');
+const {
+  DEFAULT_SERVICES,
+  DEFAULT_PROFILES,
+  defaultConfig,
+  mergeWithDefaults
+} = require('./lib/config-shape');
 
 const appDir = app.isPackaged ? path.dirname(process.execPath) : __dirname;
 const configPath = path.join(appDir, 'config.json');
 
 function getStartupStatus() {
   try {
-    const output = execSync('reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v LLMSwitcher', { encoding: 'utf-8' });
+    const output = execSync(
+      'reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v LLMSwitcher',
+      { encoding: 'utf-8' }
+    );
     return output.includes('LLMSwitcher');
   } catch {
     return false;
@@ -20,7 +28,9 @@ function setStartup(enable) {
   const runKey = 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run';
   try {
     if (enable) {
-      const appPath = app.isPackaged ? `"${process.execPath}"` : `"${process.execPath}" "${__dirname}"`;
+      const appPath = app.isPackaged
+        ? `"${process.execPath}"`
+        : `"${process.execPath}" "${__dirname}"`;
       execSync(`reg add "${runKey}" /v LLMSwitcher /t REG_SZ /d "${appPath}" /f`);
     } else {
       execSync(`reg delete "${runKey}" /v LLMSwitcher /f`);

@@ -8,7 +8,7 @@ export function renderMappings() {
 
   const serviceIds = Object.keys(services).sort();
 
-  serviceIds.forEach(svcId => {
+  serviceIds.forEach((svcId) => {
     const svc = services[svcId];
     const mappedDirs = config.mappings[svcId] || [];
 
@@ -26,12 +26,12 @@ export function renderMappings() {
     const tagsContainer = document.createElement('div');
     tagsContainer.className = 'mapping-tags-container';
 
-    const validMappedDirs = mappedDirs.filter(dir => profiles[dir]);
+    const validMappedDirs = mappedDirs.filter((dir) => profiles[dir]);
     if (validMappedDirs.length !== mappedDirs.length) {
       config.mappings[svcId] = validMappedDirs;
     }
 
-    validMappedDirs.forEach(dir => {
+    validMappedDirs.forEach((dir) => {
       const displayLabel = profiles[dir];
       const tag = document.createElement('div');
       tag.className = 'profile-tag';
@@ -41,7 +41,7 @@ export function renderMappings() {
       `;
 
       tag.querySelector('.profile-tag-remove').addEventListener('click', () => {
-        config.mappings[svcId] = validMappedDirs.filter(d => d !== dir);
+        config.mappings[svcId] = validMappedDirs.filter((d) => d !== dir);
         saveChanges();
         renderMappings();
       });
@@ -52,14 +52,14 @@ export function renderMappings() {
     const addWrapper = document.createElement('div');
     addWrapper.className = 'btn-add-profile-wrapper';
 
-    const availableDirs = Object.keys(profiles).filter(dir => !validMappedDirs.includes(dir));
+    const availableDirs = Object.keys(profiles).filter((dir) => !validMappedDirs.includes(dir));
 
     if (availableDirs.length > 0) {
       addWrapper.innerHTML = `
         <button class="btn-add-profile">+ Add Profile</button>
         <select class="add-profile-select">
           <option value="" disabled selected>Add Profile...</option>
-          ${availableDirs.map(dir => `<option value="${dir}">${profiles[dir]} (${dir})</option>`).join('')}
+          ${availableDirs.map((dir) => `<option value="${dir}">${profiles[dir]} (${dir})</option>`).join('')}
         </select>
       `;
 

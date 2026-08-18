@@ -4,7 +4,6 @@ let appProfiles = null;
 const cardsList = document.getElementById('cards-list');
 const searchInput = document.getElementById('search-input');
 const btnSettings = document.getElementById('btn-settings');
-const btnClose = document.getElementById('btn-close');
 
 async function loadData() {
   try {
@@ -21,7 +20,6 @@ function renderCards() {
 
   cardsList.innerHTML = '';
   const searchVal = searchInput.value.toLowerCase().trim();
-  let hasVisibleCards = false;
 
   const services = appConfig.services || {};
   const mappings = appConfig.mappings || {};
@@ -36,7 +34,7 @@ function renderCards() {
 
     for (const dir of dirs) {
       const profileName = appProfiles[dir] || dir;
-      
+
       // Filter logic
       if (searchVal) {
         const matchesSvc = svcName.toLowerCase().includes(searchVal);
@@ -64,13 +62,13 @@ function renderCards() {
     const cardEl = document.createElement('div');
     cardEl.className = 'service-card';
     cardEl.style.setProperty('--svc-color', card.color);
-    
+
     cardEl.innerHTML = `
+      <div class="card-icon"></div>
       <div class="card-info">
         <span class="service-name">${card.svcName}</span>
         <span class="profile-name">${card.profileName}</span>
       </div>
-      <span class="card-arrow">›</span>
     `;
 
     cardEl.addEventListener('click', async () => {
@@ -98,13 +96,9 @@ searchInput.addEventListener('keydown', (e) => {
   }
 });
 
-// Settings and Close buttons
+// Settings button
 btnSettings.addEventListener('click', () => {
   window.api.openSettings();
-});
-
-btnClose.addEventListener('click', () => {
-  window.api.closePopup();
 });
 
 // Close on Escape key if search is empty

@@ -27,7 +27,7 @@ function getAvailableBrowsers() {
           found.push({ id: browser.id, name: browser.name, path: exePath });
         }
       }
-    } catch (e) {
+    } catch {
       // Registry key missing (browser not installed) - skip
     }
   }

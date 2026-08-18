@@ -6,7 +6,10 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-packager . \"LLM Switcher\" --platform=win32 --arch=x64 --icon=llm_switcher.ico --out=dist --overwrite",
-    "dist": "npm run build"
+    "dist": "npm run build",
+    "test": "node --test",
+    "lint": "eslint main.js config.js windows.js browsers.js preload.js renderer.js settings_renderer.js settings",
+    "format": "prettier --write ."
   },
   "keywords": [
     "chrome",
@@ -18,9 +21,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
     "electron": "^43.4.0",
     "electron-builder": "^24.13.3",
-    "electron-packager": "^17.1.2"
+    "electron-packager": "^17.1.2",
+    "eslint": "^9.19.0",
+    "prettier": "^3.4.2"
   },
   "build": {
     "appId": "com.torres.llm-switcher",

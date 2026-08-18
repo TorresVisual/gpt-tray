@@ -25,7 +25,7 @@ function getStartupStatus() {
   try {
     const output = execSync('reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v LLMSwitcher', { encoding: 'utf-8' });
     return output.includes('LLMSwitcher');
-  } catch (e) {
+  } catch {
     return false;
   }
 }
